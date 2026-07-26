@@ -206,3 +206,187 @@ pub fn calculate_reading_time(markdown: &str) -> i64 {
     let mins = (word_count as f64 / 200.0).ceil() as i64;
     if mins == 0 { 1 } else { mins }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+ 
+    // ═══════════════════════════════════════════════════
+    // Basic Rendering
+    // ═══════════════════════════════════════════════════
+ 
+    #[test]
+    fn test_render_paragraph() {
+        let html = render_markdown("Hello world");
+        assert!(html.contains("<p>"));
+        assert!(html.contains("Hello world"));
+    }
+ 
+    #[test]
+    fn test_render_bold() {
+        let html = render_markdown("This is **bold** text");
+        assert!(html.contains("<strong>bold</strong>"));
+    }
+ 
+    #[test]
+    fn test_render_italic() {
+        let html = render_markdown("This is *italic* text");
+        assert!(html.contains("<em>italic</em>"));
+    }
+ 
+    #[test]
+    fn test_render_link() {
+        let html = render_markdown("[click here](https://example.com)");
+        assert!(html.contains("href=\"https://example.com\""));
+        assert!(html.contains("click here"));
+    }
+ 
+    #[test]
+    fn test_render_image() {
+        let html = render_markdown("![alt text](https://example.com/img.png)");
+        assert!(html.contains("<img"));
+        assert!(html.contains("src=\"https://example.com/img.png\""));
+        assert!(html.contains("alt=\"alt text\""));
+    }
+ 
+    #[test]
+    fn test_render_unordered_list() {
+        let html = render_markdown("- item one\n- item two\n- item three");
+        assert!(html.contains("<ul>"));
+        assert!(html.contains("<li>"));
+        assert!(html.contains("item one"));
+        assert!(html.contains("item three"));
+    }
+ 
+    #[test]
+    fn test_render_ordered_list() {
+        let html = render_markdown("1. first\n2. second\n3. third");
+        assert!(html.contains("<ol>"));
+        assert!(html.contains("first"));
+        assert!(html.contains("third"));
+    }
+ 
+    #[test]
+    fn test_render_blockquote() {
+        let html = render_markdown("> This is a quote");
+        assert!(html.contains("<blockquote>"));
+        assert!(html.contains("This is a quote"));
+    }
+ 
+    #[test]
+    fn test_render_empty_string() {
+        let html = render_markdown("");
+        // Should not panic, may return empty string or whitespace
+        assert!(html.trim().is_empty() || html.contains("<p>"));
+    }
+ 
+    // ═══════════════════════════════════════════════════
+    // Headings and IDs
+    // ═══════════════════════════════════════════════════
+ 
+    #[test]
+    fn test_render_h2_heading() {
+        let html = render_markdown("## Hello World");
+        assert!(html.contains("<h2"));
+        assert!(html.contains("Hello World"));
+    }
+ 
+    #[test]
+    fn test_render_h3_heading() {
+        let html = render_markdown("### Sub Section");
+        assert!(html.contains("<h3"));
+        assert!(html.contains("Sub Section"));
+    }
+ 
+    #[test]
+    fn test_heading_has_id() {
+        let html = render_markdown("## What is a Buffer Overflow");
+        // Should generate an id attribute from the heading text
+        assert!(html.contains("id=\""));
+    }
+ 
+    #[test]
+    fn test_heading_id_is_lowercase_with_hyphens() {
+        let html = render_markdown("## Stack Smashing Basics");
+        assert!(html.contains("id=\"stack-smashing-basics\""));
+    }
+ 
+    // ═══════════════════════════════════════════════════
+    // Code Blocks
+    // ═══════════════════════════════════════════════════
+ 
+    #[test]
+    fn test_render_inline_code() {
+        let html = render_markdown("Use `printf()` here");
+        assert!(html.contains("<code>"));
+        assert!(html.contains("printf()"));
+    }
+ 
+    #[test]
+    fn test_render_fenced_code_block() {
+         let md = "```c\nvoid main() {}\n```";
+    let html = render_markdown(md);
+    assert!(html.contains("<pre"), "Expected <pre> tag in: {}", html);
+    assert!(html.contains("void"), "Expected 'void' in: {}", html);
+    assert!(html.contains("main"), "Expected 'main' in: {}", html);
+    }
+ 
+    #[test]
+    fn test_render_code_block_without_language() {
+        let md = "```\nhello world\n```";
+        let html = render_markdown(md);
+        assert!(html.contains("<pre"));
+        assert!(html.contains("hello world"));
+    }
+ 
+    #[test]
+    fn test_code_block_has_syntax_highlighting() {
+        let md = "```rust\nfn main() {\n    println!(\"hello\");\n}\n```";
+        let html = render_markdown(md);
+        // Syntect wraps tokens in <span> with style attributes
+        assert!(html.contains("<span"));
+        assert!(html.contains("style="));
+    }
+ 
+    // ═══════════════════════════════════════════════════
+    // Reading Time
+    // ═══════════════════════════════════════════════════
+ 
+    #[test]
+    fn test_reading_time_short_text() {
+        // ~50 words, should be 1 min (minimum)
+        let text = "word ".repeat(50);
+        let time = calculate_reading_time(&text);
+        assert_eq!(time, 1);
+    }
+ 
+    #[test]
+    fn test_reading_time_medium_text() {
+        // 400 words = 2 minutes at 200 wpm
+        let text = "word ".repeat(400);
+        let time = calculate_reading_time(&text);
+        assert_eq!(time, 2);
+    }
+ 
+    #[test]
+    fn test_reading_time_long_text() {
+        // 2000 words = 10 minutes at 200 wpm
+        let text = "word ".repeat(2000);
+        let time = calculate_reading_time(&text);
+        assert_eq!(time, 10);
+    }
+ 
+    #[test]
+    fn test_reading_time_rounds_up() {
+        // 201 words should round up to 2 minutes
+        let text = "word ".repeat(201);
+        let time = calculate_reading_time(&text);
+        assert_eq!(time, 2);
+    }
+ 
+    #[test]
+    fn test_reading_time_empty() {
+        let time = calculate_reading_time("");
+        assert!(time <= 1);
+    }
+}

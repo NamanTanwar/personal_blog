@@ -9,7 +9,7 @@ pub struct Config {
     pub admin_password_hash: String,
     pub aws_s3_bucket: String,
     pub aws_s3_region: String,
-    pub upload_max_size_mb: u64,
+    pub upload_max_size_mb: usize,
     pub server_host: String,
     pub server_port: u16,
     pub public_url: String,
@@ -28,7 +28,8 @@ impl Config {
                 .parse()
                 .expect("JWT_EXPIRY_HOURS must be a valid integer"),
             admin_email: env::var("ADMIN_EMAIL").expect("ADMIN_EMAIL must be set"),
-            admin_password_hash: env::var("ADMIN_PASSWORD_HASH").expect("ADMIN_PASSWORD_HASH must be set"),
+            admin_password_hash: env::var("ADMIN_PASSWORD_HASH")
+                .expect("ADMIN_PASSWORD_HASH must be set"),
             aws_s3_bucket: env::var("AWS_S3_BUCKET").expect("AWS_S3_BUCKET must be set"),
             aws_s3_region: env::var("AWS_S3_REGION").expect("AWS_S3_REGION must be set"),
             upload_max_size_mb: env::var("UPLOAD_MAX_SIZE_MB")

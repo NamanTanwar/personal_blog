@@ -11,6 +11,7 @@ pub enum AppError {
     Conflict,
     Unauthorized,
     BadRequest(String),
+    TooManyRequests,
     Internal(String),
     NotFound(String),
 }
@@ -21,7 +22,7 @@ impl IntoResponse for AppError {
         let (status, error_message) = match self {
             // Updated to accept the custom message
             AppError::NotFound(msg) => (StatusCode::NOT_FOUND, msg),
-            
+
             AppError::Conflict => (StatusCode::CONFLICT, "Slug already taken".to_string()),
             AppError::Unauthorized => (StatusCode::UNAUTHORIZED, "Unauthorized".to_string()),
             AppError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg),
@@ -29,8 +30,15 @@ impl IntoResponse for AppError {
                 // Log the real, detailed error for the backend console
                 error!("Internal server error: {}", msg);
                 // Return a generic error to the frontend/user to prevent leaking internals
-                (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error".to_string())
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    "Internal server error".to_string(),
+                )
             }
+            AppError::TooManyRequests => (
+                StatusCode::TOO_MANY_REQUESTS,
+                "Too many login attempts. Please try again later.".to_string(),
+            ),
         };
 
         // Format the response body to match the spec: { "error": "message" }

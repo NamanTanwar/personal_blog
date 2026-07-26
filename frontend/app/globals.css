@@ -1,0 +1,711 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════
+   Design System Tokens — Light Theme (default)
+   Source: Claude Design "The Syntax Syndicate" mockup
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --color-bg: #f5ead8;
+  --color-surface: #ebddc5;
+  --color-text: #201e1d;
+  --color-accent: #c67139;
+  --color-accent-2: #7a8a5e;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+
+  /* Neutral ramp */
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
+
+  /* Accent ramp (terracotta) */
+  --color-accent-100: #fff2eb;
+  --color-accent-200: #ffe1d0;
+  --color-accent-300: #ffc6a5;
+  --color-accent-400: #f6a06b;
+  --color-accent-500: #d67f48;
+  --color-accent-600: #b2622d;
+  --color-accent-700: #8c491a;
+  --color-accent-800: #643312;
+  --color-accent-900: #402310;
+
+  /* Accent-2 ramp (sage green) */
+  --color-accent-2-100: #f0fae1;
+  --color-accent-2-200: #e1eecc;
+  --color-accent-2-300: #ccdbb2;
+  --color-accent-2-400: #aebf92;
+  --color-accent-2-500: #8fa073;
+  --color-accent-2-600: #728157;
+  --color-accent-2-700: #56633f;
+  --color-accent-2-800: #3d472b;
+  --color-accent-2-900: #272e1b;
+
+  /* Typography */
+  --font-brand: "Caprasimo", system-ui, sans-serif;
+  --font-heading: "Source Serif 4", Georgia, serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════
+   Dark Theme
+   ═══════════════════════════════════════════════════ */
+
+.dark {
+  --color-bg: #1c1a17;
+  --color-surface: #252320;
+  --color-text: #ede8df;
+  --color-divider: rgba(237, 232, 223, 0.08);
+  --color-accent: #d4834a;
+  --color-accent-2: #90a573;
+
+  --color-neutral-100: #201e19;
+  --color-neutral-200: #2a2722;
+  --color-neutral-300: #36322b;
+  --color-neutral-400: #4d4840;
+  --color-neutral-500: #706a5f;
+  --color-neutral-600: #928c81;
+  --color-neutral-700: #b2aca2;
+  --color-neutral-800: #cec8be;
+  --color-neutral-900: #ede8df;
+
+  --color-accent-100: #2a2018;
+  --color-accent-200: #3d2c1c;
+  --color-accent-300: #573d22;
+  --color-accent-400: #7d542d;
+  --color-accent-500: #c67b3f;
+  --color-accent-600: #d48a50;
+  --color-accent-700: #e2a46e;
+  --color-accent-800: #eec08f;
+  --color-accent-900: #f7ddb8;
+
+  --color-accent-2-100: #1c2218;
+  --color-accent-2-200: #283020;
+  --color-accent-2-300: #384430;
+  --color-accent-2-400: #516342;
+  --color-accent-2-500: #7a8a5e;
+  --color-accent-2-600: #94a874;
+  --color-accent-2-700: #afbf92;
+  --color-accent-2-800: #c8d5b0;
+  --color-accent-2-900: #e2edd2;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════
+   Base Styles
+   ═══════════════════════════════════════════════════ */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+a {
+  color: var(--color-accent);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--color-accent-700);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   Tag Component Classes
+   ═══════════════════════════════════════════════════ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+}
+
+.tag-accent {
+  background: var(--color-accent-100);
+  color: var(--color-accent-800);
+}
+
+.tag-accent-2 {
+  background: var(--color-accent-2-100);
+  color: var(--color-accent-2-800);
+}
+
+.tag-blue {
+  background: #dae5ed;
+  color: #2c4a5e;
+}
+
+.tag-neutral {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.dark .tag-accent {
+  background: var(--color-accent-200);
+  color: var(--color-accent-700);
+}
+
+.dark .tag-accent-2 {
+  background: var(--color-accent-2-200);
+  color: var(--color-accent-2-700);
+}
+
+.dark .tag-blue {
+  background: #1e2a32;
+  color: #7fb3d4;
+}
+
+.dark .tag-neutral {
+  background: var(--color-neutral-200);
+  color: var(--color-neutral-700);
+}
+
+/* ═══════════════════════════════════════════════════
+   Prose / Article Content Styles
+   Applied to rendered HTML from the backend
+   ═══════════════════════════════════════════════════ */
+
+.prose {
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--color-neutral-700);
+}
+
+.prose h2 {
+  font-size: 28px;
+  margin: 52px 0 16px;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.prose h3 {
+  font-size: 22px;
+  margin: 40px 0 12px;
+  color: var(--color-text);
+}
+
+.prose p {
+  margin: 0 0 28px;
+}
+
+.prose strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  color: var(--color-accent-700);
+}
+
+.prose img {
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 36px 0;
+}
+
+.prose figure {
+  margin: 40px 0;
+}
+
+.prose figcaption {
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* Inline code */
+.prose code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-neutral-200);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+/* Code blocks — always dark regardless of theme */
+.prose pre {
+  background: #1a1816;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 32px 0;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.prose pre code {
+  display: block;
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #ede8df;
+  background: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Lists */
+.prose ul,
+.prose ol {
+  margin: 0 0 28px;
+  padding-left: 24px;
+}
+
+.prose li {
+  margin-bottom: 8px;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 20px;
+  margin: 32px 0;
+  color: var(--color-neutral-600);
+  font-style: italic;
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 32px 0;
+  font-size: 15px;
+}
+
+.prose th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral-500);
+  padding: 8px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.prose td {
+  padding: 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════
+   Mobile Adjustments
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .prose {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .prose h2 {
+    font-size: 22px;
+    margin: 32px 0 12px;
+  }
+
+  .prose h3 {
+    font-size: 18px;
+    margin: 28px 0 10px;
+  }
+
+  .prose pre code {
+    font-size: 12px;
+    line-height: 1.65;
+    padding: 16px;
+  }
+}
+
+.post-card {
+  background: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-divider);
+}
+
+.post-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent-400);
+}
+
+.tag-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.tag-filter-btn:hover {
+  opacity: 1 !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   Pagination Buttons
+   ═══════════════════════════════════════════════════ */
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.15s;
+}
+
+.pagination-btn:hover {
+  background: var(--color-neutral-200) !important;
+}
+
+.post-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+@media (min-width: 1024px) {
+  .post-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 56px;
+  }
+}
+
+.post-sidebar {
+  min-width: 0;
+}
+
+.post-article {
+  min-width: 0;
+  max-width: 720px;
+}
+
+/* ═══════════════════════════════════════════════════
+   Code Block Header (language label + copy button)
+   ═══════════════════════════════════════════════════ */
+
+.prose pre {
+  position: relative;
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.code-block-lang {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #706a5f;
+}
+
+.code-block-copy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: transparent;
+  border: none;
+  color: #706a5f;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.code-block-copy:hover {
+  color: #ede8df;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════
+   Table of Contents Link Hover
+   ═══════════════════════════════════════════════════ */
+
+.toc-link:hover {
+  color: var(--color-accent) !important;
+}
+
+.about-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--color-divider);
+  color: var(--color-text);
+  background: transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.about-social-link:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-divider);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.admin-input:focus {
+  border-color: var(--color-accent);
+}
+
+.admin-input::placeholder {
+  color: var(--color-neutral-400);
+}
+
+/* ═══════════════════════════════════════════════════
+   Admin — Buttons
+   ═══════════════════════════════════════════════════ */
+
+.admin-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.admin-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.admin-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--color-divider);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.admin-btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.admin-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--color-divider);
+  background: transparent;
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.admin-btn-danger:hover {
+  background: var(--color-accent-100);
+}
+
+/* ═══════════════════════════════════════════════════
+   Admin — Table
+   ═══════════════════════════════════════════════════ */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral-500);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-divider);
+  font-weight: 600;
+}
+
+.admin-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 6%, transparent);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background: color-mix(in srgb, var(--color-surface) 50%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════
+   Admin — Textarea
+   ═══════════════════════════════════════════════════ */
+
+.admin-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-divider);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  outline: none;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.admin-textarea:focus {
+  border-color: var(--color-accent);
+}
+
+/* ═══════════════════════════════════════════════════
+   Admin — Confirm Dialog
+   ═══════════════════════════════════════════════════ */
+
+.admin-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.admin-dialog {
+  background: var(--color-bg);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+}
+
+.editor-toggle {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.editor-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1.2s step-end infinite;
+}

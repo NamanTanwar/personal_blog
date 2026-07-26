@@ -6,30 +6,32 @@ mod middleware;
 mod models;
 mod services;
 
-use axum::Router;
+use crate::services::rate_limiter::RateLimiter;
+use axum::http::{header, Method};
 use sqlx::SqlitePool;
 use std::net::SocketAddr;
 use std::str::FromStr;
-use axum::http::{Method, header};
+use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
 use crate::config::Config;
+use aws_sdk_s3::Client as S3Client;
 
 #[derive(Clone)]
 pub struct AppState {
     pub db: SqlitePool,
-    pub config: Config,
+    pub config: Arc<Config>,
+    pub s3_client: S3Client,
+    pub rate_limiter: Arc<RateLimiter>,
 }
 
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use tower_http::trace::TraceLayer;
-use tracing::{info, debug};
+use tracing::{debug, info};
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
 async fn main() {
-    
     // 1. Initialize Structured Logging
-    // If RUST_LOG isn't set in the terminal, it defaults to showing info for your app & HTTP requests
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::EnvFilter::try_from_default_env()
@@ -38,63 +40,80 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    // Swapped println! for info!
     info!("Loading configuration...");
 
     let app_config = Config::from_env();
 
     info!("Configuration loaded successfully!");
-    // Swapped to debug! so passwords/URLs don't constantly spam production logs
-    debug!("Database URL: {}", app_config.database_url); 
-    info!("Server configured for: {}:{}", app_config.server_host, app_config.server_port);
+    debug!("Database URL: {}", app_config.database_url);
+    info!(
+        "Server configured for: {}:{}",
+        app_config.server_host, app_config.server_port
+    );
     info!("Admin Email: {}", app_config.admin_email);
 
-    let _db_pool = db::establish_connection(&app_config).await;
+    // 2. Database connection
+    let db_pool = db::establish_connection(&app_config).await;
 
+    // 3. S3 client
+    info!("Initializing S3 client...");
+    let aws_config = aws_config::defaults(aws_config::BehaviorVersion::latest())
+        .region(aws_sdk_s3::config::Region::new(
+            app_config.aws_s3_region.clone(),
+        ))
+        .load()
+        .await;
+
+    let s3_client = S3Client::new(&aws_config);
+    info!(
+        "S3 client initialized for bucket: {}",
+        app_config.aws_s3_bucket
+    );
+
+    let rate_limiter = Arc::new(RateLimiter::new(5, 60));
+
+    let server_host = app_config.server_host.clone();
+    let server_port = app_config.server_port;
+
+    // 4. Build shared state
     let state = AppState {
-        db: _db_pool,
-        config: app_config.clone(),
+        db: db_pool,
+        config: Arc::new(app_config),
+        s3_client,
+        rate_limiter,
     };
 
+    // 5. CORS
     let frontend_url = "http://localhost:3000".parse().unwrap();
 
     let cors = CorsLayer::new()
         .allow_origin([frontend_url])
-        .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE, Method::OPTIONS])
-        .allow_headers([
-            header::CONTENT_TYPE,
-            header::AUTHORIZATION,
-            header::ACCEPT,
+        .allow_methods([
+            Method::GET,
+            Method::POST,
+            Method::PUT,
+            Method::DELETE,
+            Method::OPTIONS,
         ])
+        .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION, header::ACCEPT])
         .allow_credentials(true);
 
-    // 2. Attach BOTH CORS and TraceLayer
+    // 6. Build router with middleware
     let app = crate::handlers::create_router(state)
         .layer(cors)
-        .layer(TraceLayer::new_for_http()); // <-- This single line logs every HTTP request automatically!
+        .layer(TraceLayer::new_for_http());
 
-    let host = std::net::IpAddr::from_str(&app_config.server_host)
+    // 7. Start server
+    let host = std::net::IpAddr::from_str(&server_host)
         .unwrap_or(std::net::IpAddr::V4(std::net::Ipv4Addr::new(127, 0, 0, 1)));
-    let addr = SocketAddr::new(host, app_config.server_port);
-
-    // --- TEMPORARY TEST FOR STEP 9 ---
-    info!("--- Testing JWT Service ---");
-    let test_secret = "super-secret-test-key";
-    
-    let token = crate::services::jwt::create_token(test_secret, 1).unwrap();
-    debug!("Generated Token: {}", token);
-    
-    let valid_claims = crate::services::jwt::validate_token(test_secret, &token).unwrap();
-    debug!("Token is valid! Subject: {}, Expires at: {}", valid_claims.sub, valid_claims.exp);
-    
-    let bad_result = crate::services::jwt::validate_token("wrong-secret", &token);
-    debug!("Bad secret test correctly rejected: {}", bad_result.is_err());
-    info!("--- JWT Test Complete ---");
-    // ---------------------------------
-
+    let addr = SocketAddr::new(host, server_port);
     info!("🚀 Server successfully started on http://{}", addr);
 
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    axum::serve(listener, app).await.unwrap();
-
+    axum::serve(
+        listener,
+        app.into_make_service_with_connect_info::<SocketAddr>(),
+    )
+    .await
+    .unwrap();
 }
