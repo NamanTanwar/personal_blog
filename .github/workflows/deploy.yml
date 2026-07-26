@@ -61,7 +61,7 @@ jobs:
         run: npm test
  
   # ═══════════════════════════════════════════════════
-  # Stage 2: Build release artifacts
+  # Stage 2: Build Rust backend for ARM
   # Only runs if tests pass
   # Only runs on push to master (not on PRs)
   # ═══════════════════════════════════════════════════
@@ -75,7 +75,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
  
-      # --- Build Rust backend for ARM ---
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -110,26 +109,6 @@ jobs:
         env:
           SQLX_OFFLINE: true
  
-      # --- Build Next.js frontend ---
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
- 
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: npm ci
- 
-      - name: Build frontend
-        working-directory: frontend
-        run: npm run build
-        env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.PUBLIC_URL }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.PUBLIC_URL }}
- 
-      # --- Upload artifacts for deploy stage ---
       - name: Upload backend binary
         uses: actions/upload-artifact@v4
         with:
@@ -137,21 +116,10 @@ jobs:
           path: target/aarch64-unknown-linux-gnu/release/blog_backend
           retention-days: 1
  
-      - name: Upload frontend build
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: |
-            frontend/.next
-            frontend/package.json
-            frontend/package-lock.json
-            frontend/next.config.ts
-            frontend/public
-          retention-days: 1
- 
   # ═══════════════════════════════════════════════════
   # Stage 3: Deploy to EC2
-  # Only runs if build succeeds
+  # Ships backend binary + frontend source to server
+  # Builds frontend on the server
   # ═══════════════════════════════════════════════════
   deploy:
     name: Deploy
@@ -160,17 +128,14 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
  
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
       - name: Download backend binary
         uses: actions/download-artifact@v4
         with:
           name: backend-binary
           path: ./backend
- 
-      - name: Download frontend build
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-          path: ./frontend
  
       - name: Setup SSH key
         run: |
@@ -186,23 +151,27 @@ jobs:
             ubuntu@${{ secrets.EC2_HOST }}:/opt/blog/blog_backend_new
  
           ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-            # Swap the binary atomically
             chmod +x /opt/blog/blog_backend_new
             mv /opt/blog/blog_backend_new /opt/blog/blog_backend
             sudo systemctl restart blog-backend
           EOF
  
-      - name: Deploy frontend
+      - name: Deploy and build frontend
         run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key" \
             --exclude node_modules \
+            --exclude .next \
+            --exclude .env.local \
             ./frontend/ \
             ubuntu@${{ secrets.EC2_HOST }}:/opt/blog/frontend/
  
           ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             cd /opt/blog/frontend
-            npm ci --production
+            echo "NEXT_PUBLIC_API_URL=${{ secrets.PUBLIC_URL }}" > .env.local
+            echo "NEXT_PUBLIC_SITE_URL=${{ secrets.PUBLIC_URL }}" >> .env.local
+            npm ci
+            npm run build
             sudo systemctl restart blog-frontend
           EOF
  
