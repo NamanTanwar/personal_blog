@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { getPosts } from "@/lib/api";
 import { PostCard } from "@/components/blog/PostCard";
+import type { Post } from "@/lib/types";
 
 export default async function Home() {
-  let recentPosts = [];
+  let recentPosts: Post[] = [];
 
   try {
     const data = await getPosts({ per_page: 4 });
