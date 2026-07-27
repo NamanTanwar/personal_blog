@@ -84,10 +84,13 @@ async fn main() {
     };
 
     // 5. CORS
-    let frontend_url = "http://localhost:3000".parse().unwrap();
+    // let frontend_url = "http://localhost:3000".parse().unwrap();
 
     let cors = CorsLayer::new()
-        .allow_origin([frontend_url])
+        .allow_origin([
+            "http://localhost:3000".parse().unwrap(),
+            "https://etherbot.in".parse().unwrap(),
+        ])
         .allow_methods([
             Method::GET,
             Method::POST,
