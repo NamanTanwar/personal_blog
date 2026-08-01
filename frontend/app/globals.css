@@ -204,6 +204,11 @@ a:hover {
    Applied to rendered HTML from the backend
    ═══════════════════════════════════════════════════ */
 
+.prose h1 {
+  display: none;
+}
+
+
 .prose {
   font-size: 18px;
   line-height: 1.85;
@@ -416,8 +421,9 @@ a:hover {
 
 @media (min-width: 1024px) {
   .post-layout {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 200px minmax(0, 720px);
     gap: 56px;
+    justify-content: center;
   }
 }
 
@@ -427,7 +433,6 @@ a:hover {
 
 .post-article {
   min-width: 0;
-  max-width: 720px;
 }
 
 /* ═══════════════════════════════════════════════════
