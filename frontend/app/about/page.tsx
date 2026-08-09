@@ -81,7 +81,7 @@ export default function AboutPage() {
                         color: "var(--color-neutral-500)",
                     }}
                 >
-                    Security Researcher · Systems Programmer · Rust Enthusiast
+                    Systems Programmer · Rust Enthusiast · Agentic AI Builder
                 </p>
 
                 {/* Bio */}
@@ -93,33 +93,27 @@ export default function AboutPage() {
                     }}
                 >
                     <p className="m-0 mb-7">
-                        I&apos;m a software engineer based in Pune, India, working at the
-                        intersection of automotive systems and low-level software. My day
-                        job involves building convergence platforms — hypervisor systems
-                        running QNX and Android simultaneously on Qualcomm SoCs, using C++,
-                        gRPC, and Protobuf.
+                        I&apos;I'm a software engineer at Bosch, based in Pune, India. My day job is building hypervisor-based OTA platforms — QNX host and Android guest running on the same SoC, C++ across the board. I work on everything that happens between a firmware package hitting the hardware and the system booting into it — cryptographic validation, A/B partition staging across a hypervisor boundary, atomic boot slot commits, and rollback when things go wrong.
                     </p>
 
                     <p className="m-0 mb-7">
-                        Outside of work, I spend most of my time exploring Rust and
-                        security. I&apos;ve built everything from algorithmic trading
-                        platforms to bi-directional cherry-pick synchronization tools —
-                        always with a focus on correctness, performance, and understanding
-                        things at the lowest level possible.
+                        I've spent a lot of my time going deep on concurrency and memory models — led a 12-finding audit of a production ARM64 codebase covering memory ordering violations, data races, and state machine bugs. I also discovered a stack overflow vulnerability where a single untrusted byte could smash the stack by 222 bytes. The low-level stuff is where I feel most at home.
                     </p>
 
                     <p className="m-0 mb-7">
-                        This blog is where I write about the things I learn along the way.
-                        Expect deep dives into buffer overflow exploits, memory safety,
-                        Linux internals, automotive software architecture, and the
-                        occasional Rust adventure. I write for people who want to understand
-                        how things actually work, not just how to use them.
+                        On the AI side, I built an ASPICE audit agent that won 1st place out of 22 teams at an internal hackathon and shipped it to production for my team. I'm fascinated by agentic AI, MCP, and RAG — and how they can automate workflows that engineers currently do by hand.
                     </p>
 
                     <p className="m-0 mb-10">
-                        If something here helped you or you want to talk shop, feel free to
-                        reach out. I&apos;m always happy to connect with fellow engineers
-                        who care about building things right.
+                        Outside of work, I'm building an algorithmic trading platform for NSE in Rust, and I built this blog from scratch — Rust/Axum backend, Next.js frontend, deployed on AWS. I care about correctness, performance, and understanding things at the lowest level possible.
+                    </p>
+
+                    <p className="m-0 mb-10">
+                        This blog is where I write about all of it. Expect deep dives into systems programming, concurrency, C++, Rust, ARM internals, AI agents, and automotive software architecture. I write for people who want to understand how things actually work, not just how to use them.
+                    </p>
+
+                    <p className="m-0 mb-10">
+                        If something here helped you or you want to talk shop, feel free to reach out. I'm always happy to connect with fellow engineers who care about building things right.
                     </p>
                 </div>
 
