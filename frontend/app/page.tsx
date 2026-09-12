@@ -3,6 +3,8 @@ import { getPosts } from "@/lib/api";
 import { PostCard } from "@/components/blog/PostCard";
 import type { Post } from "@/lib/types";
 
+export const revalidate = 60;
+
 export default async function Home() {
   let recentPosts: Post[] = [];
 
