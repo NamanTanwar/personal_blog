@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { OrganizationJsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const inter = Inter({
@@ -42,6 +43,9 @@ export const metadata: Metadata = {
       "application/rss+xml": "/api/feed.xml",
     },
   },
+  verification: {
+    google: "0x36FjIfQw0CakHOeilYTZoZEkZIrsnSJTpqOnuMDRI",
+  },
 };
 
 export default function RootLayout({
@@ -56,6 +60,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex flex-col min-h-screen">
+        <OrganizationJsonLd />
         <ThemeProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
