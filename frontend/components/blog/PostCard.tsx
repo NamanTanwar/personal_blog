@@ -11,20 +11,20 @@ export function PostCard({ post, variant = "compact" }: PostCardProps) {
     const isExpanded = variant === "expanded";
 
     return (
-        <Link href={`/blog/${post.slug}`} className="block no-underline group">
+        <Link href={`/blog/${post.slug}`} className="block no-underline">
             <div
-                className="post-card h-full transition-all duration-200"
-                style={{
-                    padding: isExpanded ? "28px" : "24px",
-                }}
+                className="post-card h-full"
+                style={{ padding: "24px" }}
             >
                 {/* Title */}
                 <h3
-                    className="font-heading font-bold m-0 mb-2"
+                    className="m-0 mb-2"
                     style={{
-                        fontSize: isExpanded ? "22px" : "19px",
-                        lineHeight: "1.3",
-                        color: "var(--color-text)",
+                        fontSize: isExpanded ? "18px" : "16px",
+                        lineHeight: isExpanded ? "1.3" : "1.4",
+                        fontWeight: 600,
+                        letterSpacing: "-0.01em",
+                        color: "var(--text)",
                     }}
                 >
                     {post.title}
@@ -34,9 +34,9 @@ export function PostCard({ post, variant = "compact" }: PostCardProps) {
                 <p
                     className="m-0 mb-4"
                     style={{
-                        fontSize: isExpanded ? "15px" : "14px",
-                        lineHeight: isExpanded ? "1.7" : "1.65",
-                        color: "var(--color-neutral-600)",
+                        fontSize: "14px",
+                        lineHeight: "1.6",
+                        color: "var(--muted)",
                         display: "-webkit-box",
                         WebkitLineClamp: isExpanded ? 3 : 2,
                         WebkitBoxOrient: "vertical",
@@ -51,7 +51,12 @@ export function PostCard({ post, variant = "compact" }: PostCardProps) {
                     <div className="flex items-center justify-between flex-wrap gap-3">
                         <div
                             className="flex items-center gap-1.5"
-                            style={{ fontSize: "13px", color: "var(--color-neutral-500)" }}
+                            style={{
+                                fontSize: "12px",
+                                color: "var(--muted)",
+                                opacity: 0.6,
+                                fontFamily: "var(--font-mono)",
+                            }}
                         >
                             <span>{formatDate(post.created_at)}</span>
                             <span style={{ opacity: 0.4 }}>·</span>
@@ -69,7 +74,12 @@ export function PostCard({ post, variant = "compact" }: PostCardProps) {
                     <>
                         <div
                             className="flex items-center gap-1.5 mb-3"
-                            style={{ fontSize: "12px", color: "var(--color-neutral-500)" }}
+                            style={{
+                                fontSize: "12px",
+                                color: "var(--muted)",
+                                opacity: 0.6,
+                                fontFamily: "var(--font-mono)",
+                            }}
                         >
                             <span>{formatDate(post.created_at)}</span>
                             <span style={{ opacity: 0.4 }}>·</span>

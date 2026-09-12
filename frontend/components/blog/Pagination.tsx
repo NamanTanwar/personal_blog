@@ -15,19 +15,17 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
 
     function handlePageClick(page: number) {
         const params = new URLSearchParams(searchParams.toString());
-
         if (page === 1) {
             params.delete("page");
         } else {
             params.set("page", String(page));
         }
-
         const query = params.toString();
         router.push(`/blog${query ? `?${query}` : ""}`);
     }
 
     return (
-        <div className="flex justify-center gap-2 mt-12">
+        <div className="flex justify-center" style={{ gap: "6px", marginTop: "48px" }}>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
                 const isActive = page === currentPage;
                 return (
@@ -36,8 +34,8 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
                         onClick={() => handlePageClick(page)}
                         className="pagination-btn"
                         style={{
-                            background: isActive ? "var(--color-accent)" : "transparent",
-                            color: isActive ? "var(--color-bg)" : "var(--color-neutral-600)",
+                            background: isActive ? "var(--accent)" : "transparent",
+                            color: isActive ? "#0a0a0a" : "var(--muted)",
                             fontWeight: isActive ? 600 : 400,
                         }}
                     >

@@ -94,8 +94,8 @@ describe("getTagColorClass", () => {
         expect(getTagColorClass("linux")).toBe("tag-blue");
     });
 
-    it("returns tag-blue for automotive", () => {
-        expect(getTagColorClass("automotive")).toBe("tag-blue");
+    it("returns tag-blue for distributed systems", () => {
+        expect(getTagColorClass("distributed systems")).toBe("tag-blue");
     });
 
     // Neutral tags

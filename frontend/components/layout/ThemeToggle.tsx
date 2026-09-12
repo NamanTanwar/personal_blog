@@ -8,12 +8,10 @@ export function ThemeToggle() {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
-    // Prevent hydration mismatch — theme is unknown on the server
     useEffect(() => setMounted(true), []);
 
     if (!mounted) {
-        // Render a placeholder with the same dimensions to prevent layout shift
-        return <div className="w-[34px] h-[34px]" />;
+        return <div className="w-[30px] h-[30px]" />;
     }
 
     const isDark = theme === "dark";
@@ -21,11 +19,24 @@ export function ThemeToggle() {
     return (
         <button
             onClick={() => setTheme(isDark ? "light" : "dark")}
-            className="flex items-center justify-center w-[34px] h-[34px] rounded-full transition-colors hover:bg-neutral-200 cursor-pointer"
-            style={{ color: "var(--color-text)" }}
+            className="flex items-center justify-center w-[30px] h-[30px] cursor-pointer transition-all"
+            style={{
+                background: "none",
+                border: "1px solid var(--border)",
+                borderRadius: "8px",
+                color: "var(--muted)",
+            }}
+            onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--accent)";
+                e.currentTarget.style.color = "var(--accent)";
+            }}
+            onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border)";
+                e.currentTarget.style.color = "var(--muted)";
+            }}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
-            {isDark ? <Sun size={18} strokeWidth={2.75} /> : <Moon size={18} strokeWidth={2.75} />}
+            {isDark ? <Sun size={16} strokeWidth={2} /> : <Moon size={16} strokeWidth={2} />}
         </button>
     );
 }

@@ -1,108 +1,46 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════
-   Design System Tokens — Light Theme (default)
-   Source: Claude Design "The Syntax Syndicate" mockup
+   Design System v2 — Dark Neon Theme
+   Inspired by pollinations.ai
    ═══════════════════════════════════════════════════ */
 
 :root {
-  --color-bg: #f5ead8;
-  --color-surface: #ebddc5;
-  --color-text: #201e1d;
-  --color-accent: #c67139;
-  --color-accent-2: #7a8a5e;
-  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+  --bg: #0a0a0a;
+  --surface: #1a1a1a;
+  --text: #e8e8e8;
+  --muted: #888888;
+  --accent: #E8F372;
+  --accent-hover: #f0f89a;
+  --accent-dim: rgba(232, 243, 114, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.06);
+  --code-bg: #0d0d0d;
+  --tag-dim: rgba(255, 255, 255, 0.2);
+  --glow-border: rgba(232, 243, 114, 0.3);
+  --glow-shadow: 0 0 20px rgba(232, 243, 114, 0.06);
+  --danger: #ff6b6b;
 
-  /* Neutral ramp */
-  --color-neutral-100: #f9f4ed;
-  --color-neutral-200: #eee7db;
-  --color-neutral-300: #dcd3c4;
-  --color-neutral-400: #c0b6a5;
-  --color-neutral-500: #a19786;
-  --color-neutral-600: #82796a;
-  --color-neutral-700: #645c50;
-  --color-neutral-800: #474238;
-  --color-neutral-900: #2e2b25;
-
-  /* Accent ramp (terracotta) */
-  --color-accent-100: #fff2eb;
-  --color-accent-200: #ffe1d0;
-  --color-accent-300: #ffc6a5;
-  --color-accent-400: #f6a06b;
-  --color-accent-500: #d67f48;
-  --color-accent-600: #b2622d;
-  --color-accent-700: #8c491a;
-  --color-accent-800: #643312;
-  --color-accent-900: #402310;
-
-  /* Accent-2 ramp (sage green) */
-  --color-accent-2-100: #f0fae1;
-  --color-accent-2-200: #e1eecc;
-  --color-accent-2-300: #ccdbb2;
-  --color-accent-2-400: #aebf92;
-  --color-accent-2-500: #8fa073;
-  --color-accent-2-600: #728157;
-  --color-accent-2-700: #56633f;
-  --color-accent-2-800: #3d472b;
-  --color-accent-2-900: #272e1b;
-
-  /* Typography */
-  --font-brand: "Caprasimo", system-ui, sans-serif;
-  --font-heading: "Source Serif 4", Georgia, serif;
-  --font-body: "Source Serif 4", Georgia, serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-
-  /* Elevation */
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
-/* ═══════════════════════════════════════════════════
-   Dark Theme
-   ═══════════════════════════════════════════════════ */
-
-.dark {
-  --color-bg: #1c1a17;
-  --color-surface: #252320;
-  --color-text: #ede8df;
-  --color-divider: rgba(237, 232, 223, 0.08);
-  --color-accent: #d4834a;
-  --color-accent-2: #90a573;
-
-  --color-neutral-100: #201e19;
-  --color-neutral-200: #2a2722;
-  --color-neutral-300: #36322b;
-  --color-neutral-400: #4d4840;
-  --color-neutral-500: #706a5f;
-  --color-neutral-600: #928c81;
-  --color-neutral-700: #b2aca2;
-  --color-neutral-800: #cec8be;
-  --color-neutral-900: #ede8df;
-
-  --color-accent-100: #2a2018;
-  --color-accent-200: #3d2c1c;
-  --color-accent-300: #573d22;
-  --color-accent-400: #7d542d;
-  --color-accent-500: #c67b3f;
-  --color-accent-600: #d48a50;
-  --color-accent-700: #e2a46e;
-  --color-accent-800: #eec08f;
-  --color-accent-900: #f7ddb8;
-
-  --color-accent-2-100: #1c2218;
-  --color-accent-2-200: #283020;
-  --color-accent-2-300: #384430;
-  --color-accent-2-400: #516342;
-  --color-accent-2-500: #7a8a5e;
-  --color-accent-2-600: #94a874;
-  --color-accent-2-700: #afbf92;
-  --color-accent-2-800: #c8d5b0;
-  --color-accent-2-900: #e2edd2;
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.4);
+[data-theme="light"] {
+  --bg: #f8f8f8;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --muted: #777777;
+  --accent: #5a6a10;
+  --accent-hover: #4a5a00;
+  --accent-dim: rgba(90, 106, 16, 0.08);
+  --border: rgba(0, 0, 0, 0.1);
+  --border-card: rgba(0, 0, 0, 0.06);
+  --code-bg: #0d0d0d;
+  --tag-dim: rgba(0, 0, 0, 0.2);
+  --glow-border: rgba(90, 106, 16, 0.25);
+  --glow-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --danger: #d44;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -110,10 +48,10 @@
    ═══════════════════════════════════════════════════ */
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
   margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
   transition: background 0.3s, color 0.3s;
 }
 
@@ -128,25 +66,26 @@ h6 {
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--accent);
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--color-accent-700);
+  color: var(--accent-hover);
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  background: var(--accent-dim);
+  color: var(--text);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 /* ═══════════════════════════════════════════════════
-   Tag Component Classes
+   Tags — Outlined Pills
    ═══════════════════════════════════════════════════ */
 
 .tag {
@@ -154,78 +93,60 @@ a:hover {
   align-items: center;
   font-size: 11px;
   letter-spacing: 0.02em;
-  padding: 3px 10px;
+  padding: 2px 10px;
   border-radius: 999px;
-  font-family: var(--font-body);
+  border: 1px solid var(--tag-dim);
+  color: var(--muted);
+  background: transparent;
 }
 
 .tag-accent {
-  background: var(--color-accent-100);
-  color: var(--color-accent-800);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .tag-accent-2 {
-  background: var(--color-accent-2-100);
-  color: var(--color-accent-2-800);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .tag-blue {
-  background: #dae5ed;
-  color: #2c4a5e;
+  border-color: var(--tag-dim);
+  color: var(--muted);
 }
 
 .tag-neutral {
-  background: var(--color-neutral-100);
-  color: var(--color-neutral-800);
-}
-
-.dark .tag-accent {
-  background: var(--color-accent-200);
-  color: var(--color-accent-700);
-}
-
-.dark .tag-accent-2 {
-  background: var(--color-accent-2-200);
-  color: var(--color-accent-2-700);
-}
-
-.dark .tag-blue {
-  background: #1e2a32;
-  color: #7fb3d4;
-}
-
-.dark .tag-neutral {
-  background: var(--color-neutral-200);
-  color: var(--color-neutral-700);
+  border-color: var(--tag-dim);
+  color: var(--muted);
 }
 
 /* ═══════════════════════════════════════════════════
-   Prose / Article Content Styles
-   Applied to rendered HTML from the backend
+   Prose / Article Content
    ═══════════════════════════════════════════════════ */
 
 .prose h1 {
   display: none;
 }
 
-
 .prose {
-  font-size: 18px;
-  line-height: 1.85;
-  color: var(--color-neutral-700);
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text);
 }
 
 .prose h2 {
-  font-size: 28px;
-  margin: 52px 0 16px;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
+  font-size: 24px;
+  margin: 56px 0 16px;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--text);
 }
 
 .prose h3 {
-  font-size: 22px;
+  font-size: 20px;
   margin: 40px 0 12px;
-  color: var(--color-text);
+  font-weight: 700;
+  color: var(--text);
 }
 
 .prose p {
@@ -233,23 +154,23 @@ a:hover {
 }
 
 .prose strong {
-  color: var(--color-text);
+  color: var(--text);
   font-weight: 700;
 }
 
 .prose a {
-  color: var(--color-accent);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .prose a:hover {
-  color: var(--color-accent-700);
+  color: var(--accent-hover);
 }
 
 .prose img {
   max-width: 100%;
-  border-radius: 16px;
+  border-radius: 8px;
   margin: 36px 0;
 }
 
@@ -258,9 +179,9 @@ a:hover {
 }
 
 .prose figcaption {
-  font-size: 13px;
-  color: var(--color-neutral-500);
-  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
   font-style: italic;
 }
 
@@ -268,18 +189,20 @@ a:hover {
 .prose code:not(pre code) {
   font-family: var(--font-mono);
   font-size: 0.85em;
-  background: var(--color-neutral-200);
-  padding: 2px 7px;
-  border-radius: 6px;
+  background: var(--surface);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
 }
 
-/* Code blocks — always dark regardless of theme */
+/* Code blocks */
 .prose pre {
-  background: #1a1816;
-  border-radius: 16px;
+  background: var(--code-bg);
+  border-radius: 8px;
   overflow: hidden;
   margin: 32px 0;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  position: relative;
 }
 
 .prose pre code {
@@ -289,9 +212,10 @@ a:hover {
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.7;
-  color: #ede8df;
+  color: #ccc;
   background: transparent;
   -webkit-overflow-scrolling: touch;
+  border: none;
 }
 
 /* Lists */
@@ -306,11 +230,18 @@ a:hover {
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--color-accent);
-  padding-left: 20px;
-  margin: 32px 0;
-  color: var(--color-neutral-600);
+  margin: 36px 0;
+  padding: 20px 24px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-dim);
+  border-radius: 0 8px 8px 0;
   font-style: italic;
+}
+
+.prose blockquote p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 /* Tables */
@@ -318,22 +249,22 @@ a:hover {
   width: 100%;
   border-collapse: collapse;
   margin: 32px 0;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .prose th {
   text-align: left;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-neutral-500);
+  color: var(--muted);
   padding: 8px;
-  border-bottom: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--border);
 }
 
 .prose td {
   padding: 8px;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+  border-bottom: 1px solid var(--border);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -342,17 +273,17 @@ a:hover {
 
 @media (max-width: 768px) {
   .prose {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.75;
   }
 
   .prose h2 {
-    font-size: 22px;
+    font-size: 20px;
     margin: 32px 0 12px;
   }
 
   .prose h3 {
-    font-size: 18px;
+    font-size: 17px;
     margin: 28px 0 10px;
   }
 
@@ -363,16 +294,25 @@ a:hover {
   }
 }
 
+/* ═══════════════════════════════════════════════════
+   Post Card
+   ═══════════════════════════════════════════════════ */
+
 .post-card {
-  background: var(--color-surface);
-  border-radius: 20px;
-  border: 1px solid var(--color-divider);
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border-card);
+  transition: all 0.25s;
 }
 
 .post-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-accent-400);
+  border-color: var(--glow-border);
+  box-shadow: var(--glow-shadow);
 }
+
+/* ═══════════════════════════════════════════════════
+   Tag Filter Buttons
+   ═══════════════════════════════════════════════════ */
 
 .tag-filter-btn {
   display: inline-flex;
@@ -380,15 +320,16 @@ a:hover {
   font-size: 12px;
   padding: 5px 14px;
   border-radius: 999px;
-  border: none;
   cursor: pointer;
+  font-weight: 500;
   font-family: var(--font-body);
-  font-weight: 600;
   transition: all 0.15s;
+  background: transparent;
 }
 
 .tag-filter-btn:hover {
-  opacity: 1 !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -401,17 +342,23 @@ a:hover {
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: 999px;
+  border-radius: 8px;
   font-size: 14px;
   border: none;
   cursor: pointer;
   font-family: var(--font-body);
-  transition: background 0.15s;
+  font-weight: 600;
+  transition: all 0.15s;
 }
 
 .pagination-btn:hover {
-  background: var(--color-neutral-200) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   Blog Post Layout
+   ═══════════════════════════════════════════════════ */
 
 .post-layout {
   display: grid;
@@ -421,8 +368,8 @@ a:hover {
 
 @media (min-width: 1024px) {
   .post-layout {
-    grid-template-columns: 200px minmax(0, 720px);
-    gap: 56px;
+    grid-template-columns: 220px minmax(0, 720px);
+    gap: 48px;
     justify-content: center;
   }
 }
@@ -436,82 +383,89 @@ a:hover {
 }
 
 /* ═══════════════════════════════════════════════════
-   Code Block Header (language label + copy button)
+   Code Block Header
    ═══════════════════════════════════════════════════ */
-
-.prose pre {
-  position: relative;
-}
 
 .code-block-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border);
 }
 
 .code-block-lang {
   font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #706a5f;
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.6;
 }
 
 .code-block-copy {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   background: transparent;
   border: none;
-  color: #706a5f;
+  color: var(--muted);
   cursor: pointer;
-  padding: 2px 8px;
+  padding: 4px 8px;
   border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
+  transition: all 0.15s;
 }
 
 .code-block-copy:hover {
-  color: #ede8df;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--accent);
+  background: var(--accent-dim);
 }
 
 /* ═══════════════════════════════════════════════════
-   Table of Contents Link Hover
+   TOC Link
    ═══════════════════════════════════════════════════ */
 
 .toc-link:hover {
-  color: var(--color-accent) !important;
+  color: var(--accent) !important;
 }
 
+/* ═══════════════════════════════════════════════════
+   About Page Social Links
+   ═══════════════════════════════════════════════════ */
+
 .about-social-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 20px;
-  border-radius: 999px;
-  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
-  border: 1px solid var(--color-divider);
-  color: var(--color-text);
+  border: 1px solid var(--border);
+  color: var(--text);
   background: transparent;
-  transition: border-color 0.15s, color 0.15s;
+  transition: all 0.2s;
 }
 
 .about-social-link:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #0a0a0a;
 }
+
+/* ═══════════════════════════════════════════════════
+   Admin Inputs
+   ═══════════════════════════════════════════════════ */
 
 .admin-input {
   width: 100%;
   padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--color-divider);
-  background: var(--color-surface);
-  color: var(--color-text);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 15px;
   outline: none;
@@ -520,15 +474,16 @@ a:hover {
 }
 
 .admin-input:focus {
-  border-color: var(--color-accent);
+  border-color: var(--accent);
 }
 
 .admin-input::placeholder {
-  color: var(--color-neutral-400);
+  color: var(--muted);
+  opacity: 0.5;
 }
 
 /* ═══════════════════════════════════════════════════
-   Admin — Buttons
+   Admin Buttons
    ═══════════════════════════════════════════════════ */
 
 .admin-btn-primary {
@@ -537,10 +492,10 @@ a:hover {
   justify-content: center;
   gap: 8px;
   padding: 10px 24px;
-  border-radius: 999px;
+  border-radius: 8px;
   border: none;
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--accent);
+  color: #0a0a0a;
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 600;
@@ -562,20 +517,20 @@ a:hover {
   align-items: center;
   gap: 6px;
   padding: 8px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  border: 1px solid var(--border);
   background: transparent;
-  color: var(--color-text);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: all 0.15s;
 }
 
 .admin-btn-secondary:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .admin-btn-danger {
@@ -583,23 +538,24 @@ a:hover {
   align-items: center;
   gap: 6px;
   padding: 8px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  border: 1px solid var(--border);
   background: transparent;
-  color: var(--color-accent);
+  color: var(--danger);
   font-family: var(--font-body);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.15s;
 }
 
 .admin-btn-danger:hover {
-  background: var(--color-accent-100);
+  background: rgba(255, 107, 107, 0.1);
+  border-color: var(--danger);
 }
 
 /* ═══════════════════════════════════════════════════
-   Admin — Table
+   Admin Table
    ═══════════════════════════════════════════════════ */
 
 .admin-table {
@@ -612,34 +568,34 @@ a:hover {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-neutral-500);
+  color: var(--muted);
   padding: 8px 12px;
-  border-bottom: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--border);
   font-weight: 600;
 }
 
 .admin-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 6%, transparent);
+  border-bottom: 1px solid var(--border);
   font-size: 14px;
   vertical-align: middle;
 }
 
 .admin-table tr:hover td {
-  background: color-mix(in srgb, var(--color-surface) 50%, transparent);
+  background: var(--surface);
 }
 
 /* ═══════════════════════════════════════════════════
-   Admin — Textarea
+   Admin Textarea
    ═══════════════════════════════════════════════════ */
 
 .admin-textarea {
   width: 100%;
   padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--color-divider);
-  background: var(--color-surface);
-  color: var(--color-text);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.7;
@@ -650,17 +606,17 @@ a:hover {
 }
 
 .admin-textarea:focus {
-  border-color: var(--color-accent);
+  border-color: var(--accent);
 }
 
 /* ═══════════════════════════════════════════════════
-   Admin — Confirm Dialog
+   Admin Confirm Dialog
    ═══════════════════════════════════════════════════ */
 
 .admin-dialog-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -668,13 +624,18 @@ a:hover {
 }
 
 .admin-dialog {
-  background: var(--color-bg);
-  border-radius: 20px;
+  background: var(--bg);
+  border-radius: 12px;
   padding: 28px;
   max-width: 400px;
   width: 90%;
-  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
 }
+
+/* ═══════════════════════════════════════════════════
+   Editor Toggle
+   ═══════════════════════════════════════════════════ */
 
 .editor-toggle {
   position: relative;
@@ -699,6 +660,19 @@ a:hover {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+.footer-rss-link {
+  color: var(--muted);
+  transition: color 0.15s;
+}
+
+.footer-rss-link:hover {
+  color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════
+   Blinking Cursor
+   ═══════════════════════════════════════════════════ */
+
 @keyframes blink {
 
   0%,
@@ -712,5 +686,5 @@ a:hover {
 }
 
 .animate-blink {
-  animation: blink 1.2s step-end infinite;
+  animation: blink 1s step-end infinite;
 }

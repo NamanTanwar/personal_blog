@@ -124,7 +124,7 @@ const TAG_COLOR_MAP: Record<string, TagColorClass> = {
 
     c: "tag-blue",
     linux: "tag-blue",
-    automotive: "tag-blue",
+    "distributed-systems": "tag-blue",
 
     kernel: "tag-neutral",
     systems: "tag-neutral",

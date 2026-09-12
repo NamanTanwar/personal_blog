@@ -7,18 +7,13 @@ import { TableOfContents } from "@/components/blog/TableOfContents";
 import { CodeBlockEnhancer } from "@/components/blog/CodeBlockEnhancer";
 import { PostCard } from "@/components/blog/PostCard";
 import { ApiClientError } from "@/lib/api";
-import { ChevronRight } from "lucide-react";
 
 interface PostPageProps {
     params: Promise<{ slug: string }>;
 }
 
-// Dynamic metadata for SEO
-export async function generateMetadata({
-    params,
-}: PostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
     const { slug } = await params;
-
     try {
         const post = await getPost(slug);
         return {
@@ -50,131 +45,116 @@ export default async function PostPage({ params }: PostPageProps) {
         throw error;
     }
 
-    // Fetch related posts (same tag, excluding current post)
     let relatedPosts: Awaited<ReturnType<typeof getPosts>>["posts"] = [];
     try {
         if (post.tags.length > 0) {
             const data = await getPosts({ per_page: 4, tag: post.tags[0] });
-            relatedPosts = data.posts
-                .filter((p) => p.slug !== post.slug)
-                .slice(0, 3);
+            relatedPosts = data.posts.filter((p) => p.slug !== post.slug).slice(0, 3);
         }
-    } catch {
-        // Not critical — page works without related posts
-    }
+    } catch { }
 
     return (
-        <div className="max-w-container mx-auto px-8">
-            <div className="py-10 pb-20">
-                {/* Breadcrumb */}
+        <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 32px" }}>
+            <div style={{ padding: "32px 0 80px" }}>
+                {/* Breadcrumb — monospace with / separator */}
                 <div
-                    className="flex items-center gap-1 mb-8"
-                    style={{ fontSize: "13px", color: "var(--color-neutral-500)" }}
+                    className="flex items-center"
+                    style={{
+                        gap: "8px",
+                        fontSize: "13px",
+                        color: "var(--muted)",
+                        fontFamily: "var(--font-mono)",
+                        marginBottom: "28px",
+                    }}
                 >
                     <Link
                         href="/blog"
-                        className="no-underline hover:underline"
-                        style={{ color: "var(--color-neutral-500)" }}
+                        className="no-underline transition-colors"
+                        style={{ color: "var(--muted)" }}
                     >
-                        Blog
+                        blog
                     </Link>
-                    <ChevronRight size={14} />
-                    <span
-                        style={{
-                            color: "var(--color-text)",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            maxWidth: "300px",
-                        }}
-                    >
-                        {post.title}
+                    <span style={{ opacity: 0.4 }}>/</span>
+                    <span style={{ color: "var(--text)", opacity: 0.6 }}>
+                        {post.slug}
                     </span>
                 </div>
 
                 {/* Two-column layout */}
                 <div className="post-layout">
-                    {/* TOC sidebar — hidden on mobile */}
+                    {/* TOC sidebar */}
                     <aside className="post-sidebar hidden lg:block">
-                        <div className="sticky" style={{ top: "80px" }}>
+                        <div className="sticky" style={{ top: "80px", padding: "24px 0" }}>
                             <TableOfContents />
                         </div>
                     </aside>
 
                     {/* Article */}
                     <article className="post-article">
-                        {/* Title */}
                         <h1
-                            className="font-heading font-bold m-0 mb-4"
+                            className="m-0"
                             style={{
-                                fontSize: "38px",
+                                fontSize: "36px",
                                 lineHeight: "1.15",
-                                letterSpacing: "-0.02em",
+                                letterSpacing: "-0.03em",
+                                fontWeight: 700,
+                                marginBottom: "20px",
                             }}
                         >
                             {post.title}
                         </h1>
 
-                        {/* Metadata bar */}
+                        {/* Metadata */}
                         <div
-                            className="flex items-center gap-3 flex-wrap mb-10"
-                            style={{ fontSize: "14px", color: "var(--color-neutral-500)" }}
+                            className="flex items-center flex-wrap"
+                            style={{
+                                gap: "16px",
+                                fontSize: "13px",
+                                color: "var(--muted)",
+                                marginBottom: "40px",
+                                fontFamily: "var(--font-mono)",
+                            }}
                         >
                             <span>{formatDate(post.created_at)}</span>
                             <span style={{ opacity: 0.3 }}>·</span>
                             <span>{readingTimeLabel(post.reading_time_mins)}</span>
                             <span style={{ opacity: 0.3 }}>·</span>
-                            <div className="flex gap-1.5">
+                            <div className="flex" style={{ gap: "6px" }}>
                                 {post.tags.map((tag) => (
-                                    <Link
-                                        key={tag}
-                                        href={`/blog?tag=${tag}`}
-                                        className="no-underline"
-                                    >
-                                        <span className={`tag ${getTagColorClass(tag)}`}>
-                                            {tag}
-                                        </span>
+                                    <Link key={tag} href={`/blog?tag=${tag}`} className="no-underline">
+                                        <span className={`tag ${getTagColorClass(tag)}`}>{tag}</span>
                                     </Link>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Article content */}
+                        {/* Content */}
                         <div
                             className="prose"
                             dangerouslySetInnerHTML={{ __html: post.content_html || "" }}
                         />
-
-                        {/* Code block enhancer — attaches copy buttons */}
                         <CodeBlockEnhancer />
                     </article>
                 </div>
 
                 {/* Related posts */}
                 {relatedPosts.length > 0 && (
-                    <div className="mt-16">
-                        <div
-                            className="mb-8"
+                    <div style={{ borderTop: "1px solid var(--border)", marginTop: "64px", paddingTop: "40px" }}>
+                        <h3
+                            className="m-0"
                             style={{
-                                borderTop: "1px solid var(--color-divider)",
-                                paddingTop: "40px",
+                                fontSize: "16px",
+                                fontWeight: 600,
+                                letterSpacing: "-0.01em",
+                                marginBottom: "20px",
                             }}
                         >
-                            <h2
-                                className="font-heading m-0 mb-6"
-                                style={{ fontSize: "22px" }}
-                            >
-                                Related Posts
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                {relatedPosts.map((relatedPost) => (
-                                    <PostCard
-                                        key={relatedPost.id}
-                                        post={relatedPost}
-                                        variant="compact"
-                                    />
-                                ))}
-                            </div>
+                            Related Posts
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: "12px" }}>
+                            {relatedPosts.map((rp) => (
+                                <PostCard key={rp.id} post={rp} variant="compact" />
+                            ))}
                         </div>
                     </div>
                 )}
